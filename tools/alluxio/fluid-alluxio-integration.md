@@ -84,7 +84,7 @@ build()
 }
 ```
 
-## 3 更新fuild的helm values.yaml里关于alluxioruntime的镜像
+## 3 更新Fluid的helm values.yaml里关于alluxioruntime的镜像
 
 ```sh
 runtime:
