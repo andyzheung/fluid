@@ -1,0 +1,36 @@
+apiVersion: data.fluid.io/v1alpha1
+kind: AlluxioRuntime
+metadata:
+  name: dataset-cephfs
+spec:
+  replicas: 2
+  master:
+    properties:
+      alluxio.underfs.cephfs.conf.file: /mnt/config/conf.file
+      alluxio.underfs.cephfs.mds.namespace: cephfs
+      alluxio.underfs.cephfs.mount.point: /autonomy-gpu-cephfs
+      alluxio.underfs.cephfs.auth.id: autonomy
+      alluxio.underfs.cephfs.auth.keyring: /mnt/config/auth.keyring
+    volumeMounts:
+      - name: ceph-config
+        mountPath: "/mnt/config"   # ConfigMap中的数据在容器中的挂载路径
+        readOnly: true         # 必须为只读卷
+  volumes:
+     # 通过挂载类型为configMap的只读卷来引用ConfigMap中的数据
+    - name: ceph-config
+      configMap:
+        name: autonomy-cephfs     # 要获取数据来源的ConfigMap名称
+        # 来自ConfigMap的一组键，将被创建为文件
+        items:
+        - key: "auth.keyring"     # 需要从ConfigMap中取值的键
+          path: "auth.keyring"    # 在volumeMounts.mountPath下挂载的路径名
+        - key: "conf.file"
+          path: "conf.file"
+  tieredstore:
+    levels:
+      - path: /dev/shm
+        mediumtype: MEM
+        quota: 100Gi
+      - path: /mnt/data01,/mnt/data02
+        mediumtype: SSD
+        quota: 1000Gi
