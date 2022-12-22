@@ -1,0 +1,22 @@
+apiVersion: data.fluid.io/v1alpha1
+kind: Dataset
+metadata:
+  name: dataset-cephfs
+spec:
+  mounts:
+    - mountPoint: cephfs://x.x.x.x:3300;y.y.y.y:3300;z.z.z.z:3300/    #这里填写cephfs的三个IP地址和端口
+      name: cephfs
+      shared: true
+  placement: "Shared"
+  tolerations:
+    - key: nodetype
+      operator: Equal
+      value: "gpu"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: nodegroup
+              operator: In
+              values:
+                - "gpu-cluster"
