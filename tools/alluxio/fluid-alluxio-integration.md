@@ -110,7 +110,11 @@ runtime:
 helm upgrade -n fluid-system --install fluid  ../fluid -f values.yaml
 
 # s3对接，Ceph对象存储对接，CephFS对接
-
+直接提供Demo放在自己的fluid仓库的example下：
 ## 1、S3对接
-直接提供Demo放在自己的fluid仓库的example/backend-storage-integration
+https://github.com/andyzheung/fluid/tree/master/samples/s3-exmaple
+## 2、Ceph对象存储
+https://github.com/andyzheung/fluid/tree/master/samples/ceph-object-storage-example
 
+## 3、Cephfs对接
+https://github.com/andyzheung/fluid/tree/master/samples/cephfs-cache
