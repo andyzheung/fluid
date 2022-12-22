@@ -118,3 +118,8 @@ https://github.com/andyzheung/fluid/tree/master/samples/ceph-object-storage-exam
 
 ## 3、Cephfs对接
 https://github.com/andyzheung/fluid/tree/master/samples/cephfs-cache
+
+
+# 附录
+1、https://www.oomspot.com/post/nyuanshengfluidshiliyongfluidjiasujiqixuexixunlian   #这里有Fluid最全的样例
+2、https://docs.alluxio.io/os/user/stable/cn/ufs/CephFS.html 
