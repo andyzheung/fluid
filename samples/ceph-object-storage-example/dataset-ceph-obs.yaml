@@ -1,0 +1,34 @@
+apiVersion: data.fluid.io/v1alpha1
+kind: Dataset
+metadata:
+  name: dataset-ceph
+spec:
+  mounts:
+    - mountPoint: s3://<bucket>/<folder>/
+      name: ceph
+      options:
+        alluxio.underfs.s3.endpoint: http://x.x.x.x:8080
+      encryptOptions:
+      - name: aws.accessKeyId
+        valueFrom:
+          secretKeyRef:
+            name: datasets-secret-ceph
+            key: aws.accessKeyId
+      - name: aws.secretKey
+        valueFrom:
+          secretKeyRef:
+            name: datasets-secret-ceph
+            key: aws.secretKey
+  placement: "Shared"
+  tolerations:
+    - key: nodetype
+      operator: Equal
+      value: "gpu"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: nodegroup
+              operator: In
+              values:
+                - "gpu-cluster"
