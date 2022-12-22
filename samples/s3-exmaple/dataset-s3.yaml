@@ -1,0 +1,35 @@
+apiVersion: data.fluid.io/v1alpha1
+kind: Dataset
+metadata:
+  name: dataset-s3
+spec:
+  mounts:
+    - mountPoint: s3://<bucket>/folder/
+      name: s3
+      options:
+        alluxio.underfs.s3.region: cn-northwest-1
+        alluxio.underfs.s3.endpoint: s3.cn-northwest-1.amazonaws.com.cn
+      encryptOptions:
+      - name: aws.accessKeyId
+        valueFrom:
+          secretKeyRef:
+            name: datasets-secret
+            key: aws.accessKeyId
+      - name: aws.secretKey
+        valueFrom:
+          secretKeyRef:
+            name: datasets-secret
+            key: aws.secretKey
+  placement: "Shared"
+  tolerations:
+    - key: nodetype
+      operator: Equal
+      value: "gpu"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: nodegroup
+              operator: In
+              values:
+                - "gpu-cluster"
