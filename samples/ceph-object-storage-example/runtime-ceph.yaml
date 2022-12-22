@@ -1,0 +1,14 @@
+apiVersion: data.fluid.io/v1alpha1
+kind: AlluxioRuntime
+metadata:
+  name: dataset-ceph
+spec:
+  replicas: 2
+  tieredstore:
+    levels:
+      - path: /dev/shm
+        mediumtype: MEM
+        quota: 100Gi
+      - path: /mnt/data01,/mnt/data02
+        mediumtype: SSD
+        quota: 1000Gi
